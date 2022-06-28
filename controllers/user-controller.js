@@ -56,7 +56,11 @@ const userController = {
                 res.status(404).json({message: 'No user found with this id!'});
                 return;
             }
-            // add delete many Thoughts here
+            let thought = await Thought.deleteMany({userId: params.id});
+            if (!thought) {
+                res.json(user, {message: 'No thoughts associated with this user found'});
+                return;
+            }
             res.json(user);
         }
         catch (err) {
@@ -66,7 +70,6 @@ const userController = {
     },
     async addFriend({params}, res) {
         try {
-            // maybe add additional queries to find user and friend first?
             let friend = await User.findOneAndUpdate({__id: params.id}, {$addToSet: {friends: params.friendId}}, {new: true});
             if (!friend) {
                 res.status(404).json({message: 'No user found with this id!'});
