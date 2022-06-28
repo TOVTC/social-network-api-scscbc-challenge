@@ -13,7 +13,7 @@ const thoughtController = {
     },
     async getThoughtById({params}, res) {
         try {
-            let thought = await Thought.findOne({_id: params.id}).populate({path: 'reactions', select: '-__v'}).select('-__v');
+            let thought = await Thought.findOne({_id: params.thoughtId}).populate({path: 'reactions', select: '-__v'}).select('-__v');
             if (!thought) {
                 res.status(404).json({message: 'No thought found with this id!'});
                 return;
@@ -43,9 +43,9 @@ const thoughtController = {
     },
     async updateThought({params, body}, res) {
         try {
-            let thought = await Thought.findOneAndUpdate({_id: params.id}, body, {new: true, runValidators});
+            let thought = await Thought.findOneAndUpdate({_id: params.thoughtId}, body, {new: true, runValidators: true});
             if (!thought) {
-                res.status(404).json({message: 'No pizza found with this id!'});
+                res.status(404).json({message: 'No thought found with this id!'});
                 return;
             }
             res.json(thought);
@@ -62,7 +62,7 @@ const thoughtController = {
                 res.status(404).json({message: 'No thought with this id!'});
                 return;
             }
-            let updated = await User.findOneAndUpdate({_id: params.userId}, {$pull: {thoughts: params.thoughtId}}, {new: true});
+            let updated = await User.findOneAndUpdate({_id: thought.userId}, {$pull: {thoughts: params.thoughtId}}, {new: true});
             if (!updated) {
                 res.status(404).json({message: 'No user found with this id!'});
                 return;

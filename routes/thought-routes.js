@@ -14,11 +14,11 @@ router
     .get(getAllThoughts);
 
 router
-    .route('/:userId/:thoughtId')
+    .route('/:userId')
     .post(createThought);
 
 router
-    .route('/thoughtId')
+    .route('/:thoughtId')
     .get(getThoughtById)
     .put(updateThought)
     .delete(deleteThought);

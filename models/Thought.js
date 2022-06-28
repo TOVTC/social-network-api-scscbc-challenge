@@ -47,14 +47,18 @@ const ThoughtSchema = new Schema(
             type: String,
             required: true
         },
-        reactions: [ReactionSchema]
+        userId: {
+            type: String,
+            required: true
+        },
+        reactions: [ReactionSchema],
     },
     {
         toJSON: {
             getters: true,
             virutals: true
         },
-        // id: false
+        id: false
     }
 )
 

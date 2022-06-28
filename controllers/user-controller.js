@@ -1,4 +1,4 @@
-const {User} = require('../models');
+const {User, Thought} = require('../models');
 
 const userController = {
     async getAllUsers(req, res) {
@@ -56,6 +56,7 @@ const userController = {
                 res.status(404).json({message: 'No user found with this id!'});
                 return;
             }
+            // add delete many Thoughts here
             res.json(user);
         }
         catch (err) {
@@ -66,11 +67,12 @@ const userController = {
     async addFriend({params}, res) {
         try {
             // maybe add additional queries to find user and friend first?
-            let friend = await User.findOneAndUpdate({__id: params.userId}, {$push: {friends: params.friendId}}, {new: true});
+            let friend = await User.findOneAndUpdate({__id: params.id}, {$addToSet: {friends: params.friendId}}, {new: true});
             if (!friend) {
                 res.status(404).json({message: 'No user found with this id!'});
                 return;
             }
+            res.json(friend);
         }
         catch (err) {
             console.log(err);
@@ -79,7 +81,7 @@ const userController = {
     },
     async deleteFriend({params}, res) {
         try {
-            let friend = await User.findOneAndUpdate({_id: params.userId}, {$pull: {friends: {friendId: params.friendId}}}, {new: true});
+            let friend = await User.findOneAndUpdate({_id: params.id}, {$pull: {friends: params.friendId}}, {new: true});
             res.json(friend);
         }
         catch (err) {
