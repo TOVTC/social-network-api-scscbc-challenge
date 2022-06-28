@@ -90,7 +90,7 @@ const thoughtController = {
     },
     async removeReaction({params}, res) {
         try {
-            let reaction = Thought.findOneAndUpdate({_id: params.thoughtId}, {$pull: {reactions: {reactionId: params.reactionId}}}, {new: true});
+            let reaction = await Thought.findOneAndUpdate({_id: params.thoughtId}, {$pull: {reactions: {reactionId: params.reactionId}}}, {new: true});
             res.json(reaction);
         }
         catch (err) {
