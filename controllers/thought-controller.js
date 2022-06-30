@@ -34,7 +34,7 @@ const thoughtController = {
                 res.status(404).json({message: 'No user found with this id!'});
                 return;
             }
-            res.json(update);
+            res.json(thought);
         }
         catch (err) {
             console.log(err);
@@ -81,7 +81,7 @@ const thoughtController = {
                 res.status(404).json({message: 'No thought found with this id!'});
                 return;
             }
-            res.json(thought);
+            res.json(reaction);
         }
         catch (err) {
             console.log(err);
